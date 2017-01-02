@@ -166,6 +166,12 @@
         engine.runRenderLoop(function () {
             Scene.render();
             createShape();
+            if(move == 1){
+                SHAPES[0].position.z += .05;
+            }
+            else if(move == -1){
+                SHAPES[0].position.z -= .05;
+            }
             
         });
 
@@ -184,7 +190,7 @@
         }
         
         function createShape(){
-            if(SHAPES.length < 3)
+            if(SHAPES.length < 1)
             {
                 var shape = BABYLON.Mesh.CreateBox("Box2", 1, Scene);
                 shape.position.x = -8; //position mesh
@@ -200,16 +206,15 @@
             var pickResult = scene.pick(scene.pointerX, scene.pointerY);
             var w = window.innerWidth;
             if(scene.pointerX < w/2){
-                SHAPES[0].position.z -= .05;
+                move = -1;
             }
             else{
-                //move = 1;
-                SHAPES[0].position.z += .05;
+                move = 1;
 
             }
         }
         function stopShape(){
-        
+            move = 0;
         }
             
         }

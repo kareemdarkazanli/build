@@ -69,9 +69,30 @@
     </head>
     <body>
         <canvas id="renderCanvas""></canvas>
-
         <script>
-            var canvas, engine, Scene, Camera;  
+        var canvas = document.getElementById("renderCanvas");
+        canvas.addEventListener('touchstart', function(ev) {
+            var w = window.innerWidth;
+
+            if(ev.clientX < w/2){
+                move = -1;
+            }
+            else{
+                move = 1;
+            }
+
+        }, false);
+        
+        canvas.addEventListener('touchend', function(ev) {
+            move = 0;
+        }, false);
+        
+        canvas.addEventListener('touchmove', function(ev) { 
+            SHAPES[0].setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0, restitution: 0.1 });
+        }, false);
+        </script>
+        <script>
+            var canvas, engine, scene, Camera;  
             var ball2;
             var SHAPES = [];
             var move = 0;
@@ -85,37 +106,25 @@
             }, false);
 
         function initScene(){
-        var canvas = document.getElementById("renderCanvas");
+        canvas = document.getElementById("renderCanvas");
         engine = new BABYLON.Engine(canvas, true);
-        Scene = new BABYLON.Scene(engine);
+        scene = new BABYLON.Scene(engine);
         
-        canvas.addEventListener('touchstart', function(ev) {
-            //SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,5),SHAPES[0].position);
-            moveShape();
-            //SHAPES[0].translate(BABYLON.Axis.Z, 4, BABYLON.Space.WORLD);
-            //alert(SHAPES[0].position.z);
-        }, false);
-       canvas.addEventListener('touchend', function(ev) {
-            stopShape();
-        }, false);
-        /*
-        canvas.addEventListener('touchmove', function(ev) { 
-        
-        }, false);*/
+       
 
         //Physics!!!
-        Scene.enablePhysics();
-        Scene.setGravity(new BABYLON.Vector3(10, 0, 0));
+        scene.enablePhysics();
+        scene.setGravity(new BABYLON.Vector3(10, 0, 0));
 
         //cameras
-        Camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 10, new BABYLON.Vector3(0,0,0), Scene);
+        Camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 10, new BABYLON.Vector3(0,0,0), scene);
 
         //lights
-        var light0 = new BABYLON.PointLight("Omni", new BABYLON.Vector3(0, 0, 10), Scene);
+        var light0 = new BABYLON.PointLight("Omni", new BABYLON.Vector3(0, 0, 10), scene);
 
         //meshes
         //ground.
-        var ground = BABYLON.Mesh.CreateBox("ground", 10, Scene);
+        var ground = BABYLON.Mesh.CreateBox("ground", 10, scene);
         ground.rotation.z = 0;
         ground.position.x = 5;
         ground.position.y = 0;
@@ -164,10 +173,10 @@
         */
 
         var posz = 0;
-        Scene.activeCamera.attachControl(canvas);
+        scene.activeCamera.attachControl(canvas);
 
         engine.runRenderLoop(function () {
-            Scene.render();
+            scene.render();
             createShape();
             //SHAPES[0].translate(new BABYLON.Vector3(0, 0, -5), 1.0, BABYLON.Space.WORLD);
             //posz = SHAPES[0].position.z;
@@ -214,7 +223,7 @@
         function createShape(){
             if(SHAPES.length < 1)
             {
-                var shape = BABYLON.Mesh.CreateBox("Box2", 1, Scene);
+                var shape = BABYLON.Mesh.CreateBox("Box2", 1, scene);
                 shape.position.x = -3; //position mesh
                 shape.position.y = 0; //position mesh
                 shape.position.z = 0; //position mesh
@@ -229,10 +238,13 @@
             }
             
         }
-        function moveShape(){
-            var pickResult = Scene.pick(Scene.pointerX, Scene.pointerY);
+        function moveShape(event){
+            var pickResult = scene.pick(scene.pointerX, scene.pointerY);
+                           alert(scene.pointerX);
+
             var w = window.innerWidth;
-            if(Scene.pointerX < w/2){
+
+            if(scene.pointerX < w/2){
                //SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,-5),SHAPES[0].position);
                 move = -1;
             }

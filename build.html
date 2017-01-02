@@ -71,8 +71,12 @@
         <canvas id="renderCanvas""></canvas>
 
         <script>
-            var canvas, engine, scene, camera;  
-            
+            var canvas, engine, Scene, Camera;  
+            var ball2;
+            var SHAPES = [];
+            var move = 0;
+
+
             document.addEventListener("DOMContentLoaded", function () {
                 if (BABYLON.Engine.isSupported()) {
                     initScene();
@@ -81,16 +85,27 @@
             }, false);
 
         function initScene(){
-             var canvas = document.getElementById("renderCanvas");
-        var engine = new BABYLON.Engine(canvas, true);
-        var Scene = new BABYLON.Scene(engine);
+        var canvas = document.getElementById("renderCanvas");
+        engine = new BABYLON.Engine(canvas, true);
+        Scene = new BABYLON.Scene(engine);
+        
+        canvas.addEventListener('touchstart', function(ev) {
+            moveShape();
+        }, false);
+        canvas.addEventListener('touchend', function(ev) {
+            stopShape();
+        }, false);
+        
+        canvas.addEventListener('touchmove', function(ev) { 
+        
+        }, false);
 
         //Physics!!!
         Scene.enablePhysics();
         Scene.setGravity(new BABYLON.Vector3(10, 0, 0));
 
         //cameras
-        var Camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 10, new BABYLON.Vector3(0,0,0), Scene);
+        Camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 10, new BABYLON.Vector3(0,0,0), Scene);
 
         //lights
         var light0 = new BABYLON.PointLight("Omni", new BABYLON.Vector3(0, 0, 10), Scene);
@@ -108,23 +123,25 @@
         ground.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
     
         //sphere parameters are: name, number of segments (highly detailed or not), size, scene to attach the mesh.
-        var ball = BABYLON.Mesh.CreateSphere("Ball", 10, 1.0, Scene);
+        /*var ball = BABYLON.Mesh.CreateSphere("Ball", 10, 1.0, Scene);
         ball.position.x = 2; //position mesh
         ball.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0, restitution: 0.7 });
-        
+        */
 
         //box parameters are: name, size of the box, the scene to attach the mesh.
-        var box = BABYLON.Mesh.CreateBox("Box", 1, Scene);
+        /*var box = BABYLON.Mesh.CreateBox("Box", 1, Scene);
         box.position.x = -6; //position mesh
         box.position.y = 0; //position mesh
         box.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0, restitution: 0.7 });
-
-        var box2 = BABYLON.Mesh.CreateBox("Box2", 1, Scene);
+        
+        
+        box2 = BABYLON.Mesh.CreateBox("Box2", 1, Scene);
         box2.position.x = -8; //position mesh
         box2.position.y = 0; //position mesh
         box2.position.z = -0.1; //position mesh
-        box2.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0, restitution: 0.7 });
-        
+        box2.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0, restitution: 0.7 });
+        */
+        //setTimeout(changeMass, 1000);
         /*
         var box3 = BABYLON.Mesh.CreateBox("Box3", 1, Scene);
         box3.position.x = -9.5; //position mesh
@@ -137,16 +154,19 @@
         cylinder.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0.5, restitution: 0.7 });
         */
         
-        var ball2 = BABYLON.Mesh.CreateSphere("Ball2", 10, 1.0, Scene);
+        /*
+        ball2 = BABYLON.Mesh.CreateSphere("Ball2", 10, 1.0, Scene);
         ball2.position.x = -4; //position mesh
         ball2.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0, restitution: 0.7 });
-        
+        */
 
         
         Scene.activeCamera.attachControl(canvas);
         
         engine.runRenderLoop(function () {
             Scene.render();
+            createShape();
+            
         });
 
         window.addEventListener("resize", function () {
@@ -156,6 +176,41 @@
             }
             
         function initGame(){
+            
+        }
+        
+        function changeMass(){
+            box2.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0, restitution: 0.7 });
+        }
+        
+        function createShape(){
+            if(SHAPES.length < 3)
+            {
+                var shape = BABYLON.Mesh.CreateBox("Box2", 1, Scene);
+                shape.position.x = -8; //position mesh
+                shape.position.y = 0; //position mesh
+                shape.position.z = -0.1; //position mesh
+                shape.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0, restitution: 0.7 });
+                SHAPES.push(shape);
+        
+            }
+            
+            
+        function moveShape(){
+            var pickResult = scene.pick(scene.pointerX, scene.pointerY);
+            var w = window.innerWidth;
+            if(scene.pointerX < w/2){
+                SHAPES[0].position.z -= .05;
+            }
+            else{
+                //move = 1;
+                SHAPES[0].position.z += .05;
+
+            }
+        }
+        function stopShape(){
+        
+        }
             
         }
         </script>

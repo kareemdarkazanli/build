@@ -89,20 +89,21 @@
         engine = new BABYLON.Engine(canvas, true);
         Scene = new BABYLON.Scene(engine);
         
-        canvas.addEventListener('touchstart', function(ev) {
+        canvas.addEventListener('ontouchstart', function(ev) {
             moveShape();
+
         }, false);
-        canvas.addEventListener('touchend', function(ev) {
+       /* canvas.addEventListener('touchend', function(ev) {
             stopShape();
         }, false);
         
         canvas.addEventListener('touchmove', function(ev) { 
         
-        }, false);
+        }, false);*/
 
         //Physics!!!
         Scene.enablePhysics();
-        Scene.setGravity(new BABYLON.Vector3(10, 0, 0));
+        Scene.setGravity(new BABYLON.Vector3(0, 0, 0));
 
         //cameras
         Camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 10, new BABYLON.Vector3(0,0,0), Scene);
@@ -160,17 +161,28 @@
         ball2.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0, restitution: 0.7 });
         */
 
-        
+        var posz = 0;
         Scene.activeCamera.attachControl(canvas);
-        
+
         engine.runRenderLoop(function () {
             Scene.render();
             createShape();
+            //SHAPES[0].translate(new BABYLON.Vector3(0, 0, -5), 1.0, BABYLON.Space.WORLD);
+            //posz = SHAPES[0].position.z;
             if(move == 1){
-                SHAPES[0].position.z += .05;
+
+                //posz += 1;
+                //SHAPES[0].position = new BABYLON.Vector3(0, 0, posz);
+                //alert(posz);
+                
+                //SHAPES[0].updatePhysicsBodyPosition();
+	            //box.moveWithCollisions(new BABYLON.Vector3(-1, 0, 0));
+	            //SHAPES[0].refreshBoundingInfo();
+                //SHAPES[0].position.z = SHAPES[0].position.z + .05;
+                //SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,0.5), SHAPES[0]);
             }
             else if(move == -1){
-                SHAPES[0].position.z -= .05;
+                //SHAPES[0].position.z = SHAPES[0].position.z - .05;
             }
             
         });
@@ -178,9 +190,15 @@
         window.addEventListener("resize", function () {
             engine.resize();
         });
+                    	 
+
+            this.body.body.linearVelocity.scaleEqual(0.92);
+            this.body.body.angularVelocity.scaleEqual(0);
             
-            }
-            
+        }
+        
+        
+        
         function initGame(){
             
         }
@@ -193,30 +211,38 @@
             if(SHAPES.length < 1)
             {
                 var shape = BABYLON.Mesh.CreateBox("Box2", 1, Scene);
-                shape.position.x = -5; //position mesh
+                shape.position.x = -3; //position mesh
                 shape.position.y = 0; //position mesh
-                shape.position.z = -0.1; //position mesh
-                shape.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0, restitution: 0.7 });
+                shape.position.z = 0; //position mesh
+                //shape.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, move: true, mass: 0, friction: 0, restitution: 0.7 });
+	            shape.setPhysicsState({ impostor: BABYLON.PhysicsEngine.SphereImpostor, mass: 1 });
+	            shape.showBoundingBox = true;
                 SHAPES.push(shape);
+
+                //SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,15),new BABYLON.Vector3(0,0,0));
+
         
             }
             
-            
+        }
         function moveShape(){
-            var pickResult = scene.pick(scene.pointerX, scene.pointerY);
+            var pickResult = Scene.pick(Scene.pointerX, Scene.pointerY);
             var w = window.innerWidth;
-            if(scene.pointerX < w/2){
-                move = -1;
+            if(Scene.pointerX < w/2){
+               SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,-5),SHAPES[0].position);
+                //move = -1;
             }
             else{
-                move = 1;
+                //move = 1;
+                SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,5),SHAPES[0].position);
 
             }
+
         }
         function stopShape(){
-            move = 0;
-        }
-            
+           //move = 0;
+           SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,0),SHAPES[0].position);
+
         }
         </script>
 

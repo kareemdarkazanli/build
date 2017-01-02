@@ -89,14 +89,14 @@
         engine = new BABYLON.Engine(canvas, true);
         Scene = new BABYLON.Scene(engine);
         
-        canvas.addEventListener('ontouchstart', function(ev) {
+        canvas.addEventListener('touchstart', function(ev) {
             moveShape();
 
         }, false);
-       /* canvas.addEventListener('touchend', function(ev) {
+       canvas.addEventListener('touchend', function(ev) {
             stopShape();
         }, false);
-        
+        /*
         canvas.addEventListener('touchmove', function(ev) { 
         
         }, false);*/

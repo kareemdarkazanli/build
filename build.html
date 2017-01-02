@@ -90,8 +90,10 @@
         Scene = new BABYLON.Scene(engine);
         
         canvas.addEventListener('touchstart', function(ev) {
+            //SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,5),SHAPES[0].position);
             moveShape();
-
+            //SHAPES[0].translate(BABYLON.Axis.Z, 4, BABYLON.Space.WORLD);
+            //alert(SHAPES[0].position.z);
         }, false);
        canvas.addEventListener('touchend', function(ev) {
             stopShape();
@@ -103,7 +105,7 @@
 
         //Physics!!!
         Scene.enablePhysics();
-        Scene.setGravity(new BABYLON.Vector3(0, 0, 0));
+        Scene.setGravity(new BABYLON.Vector3(10, 0, 0));
 
         //cameras
         Camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 10, new BABYLON.Vector3(0,0,0), Scene);
@@ -170,6 +172,7 @@
             //SHAPES[0].translate(new BABYLON.Vector3(0, 0, -5), 1.0, BABYLON.Space.WORLD);
             //posz = SHAPES[0].position.z;
             if(move == 1){
+                SHAPES[0].position.z += .1;
 
                 //posz += 1;
                 //SHAPES[0].position = new BABYLON.Vector3(0, 0, posz);
@@ -183,6 +186,8 @@
             }
             else if(move == -1){
                 //SHAPES[0].position.z = SHAPES[0].position.z - .05;
+                SHAPES[0].position.z -= .1;
+
             }
             
         });
@@ -192,8 +197,7 @@
         });
                     	 
 
-            this.body.body.linearVelocity.scaleEqual(0.92);
-            this.body.body.angularVelocity.scaleEqual(0);
+            
             
         }
         
@@ -215,7 +219,7 @@
                 shape.position.y = 0; //position mesh
                 shape.position.z = 0; //position mesh
                 //shape.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, move: true, mass: 0, friction: 0, restitution: 0.7 });
-	            shape.setPhysicsState({ impostor: BABYLON.PhysicsEngine.SphereImpostor, mass: 1 });
+	            //shape.setPhysicsState({ impostor: BABYLON.PhysicsEngine.SphereImpostor, mass: 0 });
 	            shape.showBoundingBox = true;
                 SHAPES.push(shape);
 
@@ -229,19 +233,20 @@
             var pickResult = Scene.pick(Scene.pointerX, Scene.pointerY);
             var w = window.innerWidth;
             if(Scene.pointerX < w/2){
-               SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,-5),SHAPES[0].position);
-                //move = -1;
+               //SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,-5),SHAPES[0].position);
+                move = -1;
             }
             else{
-                //move = 1;
-                SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,5),SHAPES[0].position);
+                move = 1;
+                //SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,5.0000000000),SHAPES[0].position);
 
             }
+
 
         }
         function stopShape(){
-           //move = 0;
-           SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,0),SHAPES[0].position);
+           move = 0;
+           //SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,-5.0000000000),SHAPES[0].position);
 
         }
         </script>

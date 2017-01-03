@@ -72,13 +72,24 @@
         <script>
         var canvas = document.getElementById("renderCanvas");
         canvas.addEventListener('touchstart', function(ev) {
-            var w = window.innerWidth;
+            /*var w = window.innerWidth;
 
             if(ev.clientX < w/2){
                 move = -1;
             }
             else{
                 move = 1;
+            }*/
+            var w = window.innerWidth;
+
+            if(scene.pointerX < w/2){
+               //SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,-5),SHAPES[0].position);
+                move = -1;
+            }
+            else{
+                move = 1;
+                //SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,5.0000000000),SHAPES[0].position);
+
             }
 
         }, false);
@@ -110,7 +121,17 @@
         engine = new BABYLON.Engine(canvas, true);
         scene = new BABYLON.Scene(engine);
         
-       
+        canvas.addEventListener('click', function(ev) {
+            var w = window.innerWidth;
+
+            if(ev.clientX < w/2){
+                move = -1;
+            }
+            else{
+                move = 1;
+            }
+            alert(move);
+        }, false);
 
         //Physics!!!
         scene.enablePhysics();

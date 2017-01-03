@@ -5,12 +5,11 @@
 
         <title>Babylon.js sample code</title>
         <!-- Babylon.js -->
-        <script src="http://www.babylonjs.com/hand.minified-1.2.js"></script>
-        <script src="cannon.js"></script>
+         <script src="http://www.babylonjs.com/hand.minified-1.2.js"></script>
+        <script src="http://www.babylonjs.com/cannon.js"></script>
         <script src="http://www.babylonjs.com/oimo.js"></script>
-        <script src="babylon.js"></script>
+        <script src="http://www.babylonjs.com/babylon.js"></script>
         <script src="textures/pace.min.js"></script>
-        <script src="pace.min.js"></script>
 
 
         <style>
@@ -82,7 +81,7 @@
             }*/
             var w = window.innerWidth;
 
-            if(ev.clientX < w/2){
+            if(scene.pointerX < w/2){
                //SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,-5),SHAPES[0].position);
                 move = -1;
             }

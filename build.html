@@ -99,7 +99,7 @@
         
         canvas.addEventListener('touchmove', function(ev) { 
             move = 0;
-            SHAPES[0].setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0, restitution: 0.1 });
+            SHAPES[0].setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0.1, restitution: 0 });
         }, false);
         </script>
         <script>

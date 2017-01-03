@@ -79,17 +79,24 @@
             else{
                 move = 1;
             }*/
-            var w = window.innerWidth;
-
-            if(scene.pointerX < w/2){
-               //SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,-5),SHAPES[0].position);
-                move = -1;
+            if(ev.touches.length == 2)
+            {
+                SHAPES[0].setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0.1, restitution: 0 });
             }
             else{
-                move = 1;
+                var w = window.innerWidth;
+
+                if(scene.pointerX < w/2){
+               //SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,-5),SHAPES[0].position);
+                    move = -1;
+                }
+                else{
+                    move = 1;
                 //SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,5.0000000000),SHAPES[0].position);
 
+                }
             }
+            
 
         }, false);
         
@@ -113,7 +120,7 @@
             
                 }
             }, false);
-        setTimeout(temp, 5000);
+        //setTimeout(temp, 5000);
 
         function temp(){
         move = 0;

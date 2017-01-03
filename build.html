@@ -86,10 +86,10 @@
             if(scene.pointerY < h/4)
             {
                 if(SHAPES[index].type == "box"){
-                    SHAPES[index].setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 7, restitution: 0 });
+                    SHAPES[index].setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0.001, friction: 7, restitution: 0 });
                 }
                 else{
-                    SHAPES[index].setPhysicsState({ impostor: BABYLON.PhysicsEngine.SphereImpostor, mass: 1, friction:7, restitution: 0 });
+                    SHAPES[index].setPhysicsState({ impostor: BABYLON.PhysicsEngine.SphereImpostor, mass: 0.001, friction:7, restitution: 0 });
                 }
                 createShape();
                 index++;

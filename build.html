@@ -87,9 +87,12 @@
             {
                 if(SHAPES[index].type == "box"){
                     SHAPES[index].setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 100, friction: 100, restitution: 0});
+                    SHAPES[index].position = new BABYLON.Vector3(0, 0, 0);
                 }
                 else{
                     SHAPES[index].setPhysicsState({ impostor: BABYLON.PhysicsEngine.SphereImpostor, mass: 100, friction:100, restitution: 0});
+                    SHAPES[index].position = new BABYLON.Vector3(0, 0, 0);
+
                 }
                 createShape();
                 index++;

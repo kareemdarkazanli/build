@@ -142,7 +142,7 @@
         ground.scaling.y = 1;
        // ground.material.backFaceCulling = false;
         //ground.material.alpha = 0.5;
-        //ground.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
+        ground.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0 });
     
         //sphere parameters are: name, number of segments (highly detailed or not), size, scene to attach the mesh.
         /*var ball = BABYLON.Mesh.CreateSphere("Ball", 10, 1.0, Scene);

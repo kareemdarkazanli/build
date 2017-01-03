@@ -97,10 +97,8 @@
             move = 0;
         }, false);
         
-        canvas.addEventListener('touchmove', function(ev) { 
-            move = 0;
-            SHAPES[0].setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0.1, restitution: 0 });
-        }, false);
+       // canvas.addEventListener('touchmove', function(ev) { 
+        //}, false);
         </script>
         <script>
             var canvas, engine, scene, Camera;  
@@ -115,7 +113,12 @@
             
                 }
             }, false);
+        setTimeout(temp, 5000);
 
+        function temp(){
+        move = 0;
+            SHAPES[0].setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0.1, restitution: 0 });
+        }
         function initScene(){
         canvas = document.getElementById("renderCanvas");
         engine = new BABYLON.Engine(canvas, true);

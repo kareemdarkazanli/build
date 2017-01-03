@@ -85,7 +85,8 @@
 
             if(scene.pointerY < h/4)
             {
-                SHAPES[0].setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0.1, restitution: 0 });
+                SHAPES[index].setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0.1, restitution: 0 });
+                index++;
             }
             else{
 
@@ -115,6 +116,7 @@
             var ball2;
             var SHAPES = [];
             var move = 0;
+            var index = 0;
 
 
             document.addEventListener("DOMContentLoaded", function () {
@@ -196,14 +198,14 @@
         */
 
         var posz = 0;
+        createShape();
 
         engine.runRenderLoop(function () {
             scene.render();
-            createShape();
             //SHAPES[0].translate(new BABYLON.Vector3(0, 0, -5), 1.0, BABYLON.Space.WORLD);
             //posz = SHAPES[0].position.z;
             if(move == 1){
-                SHAPES[0].position.z += .1;
+                SHAPES[index].position.z += .1;
 
                 //posz += 1;
                 //SHAPES[0].position = new BABYLON.Vector3(0, 0, posz);
@@ -217,7 +219,7 @@
             }
             else if(move == -1){
                 //SHAPES[0].position.z = SHAPES[0].position.z - .05;
-                SHAPES[0].position.z -= .1;
+                SHAPES[index].position.z -= .1;
 
             }
             
@@ -243,8 +245,6 @@
         }
         
         function createShape(){
-            if(SHAPES.length < 1)
-            {
                 var shape = BABYLON.Mesh.CreateBox("Box2", 1, scene);
                 shape.position.x = -3; //position mesh
                 shape.position.y = 0; //position mesh
@@ -256,8 +256,6 @@
 
                 //SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,15),new BABYLON.Vector3(0,0,0));
 
-        
-            }
             
         }
         function moveShape(event){

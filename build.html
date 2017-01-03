@@ -86,12 +86,10 @@
             if(scene.pointerY < h/4)
             {
                 if(SHAPES[index].type == "box"){
-                    SHAPES[index].setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 100, friction: 100, restitution: 0});
-                    SHAPES[index].position = new BABYLON.Vector3(0, 0, 0);
+                    //SHAPES[index].setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 100, friction: 100, restitution: 0});
                 }
                 else{
-                    SHAPES[index].setPhysicsState({ impostor: BABYLON.PhysicsEngine.SphereImpostor, mass: 100, friction:100, restitution: 0});
-                    SHAPES[index].position = new BABYLON.Vector3(0, 0, 0);
+                    //SHAPES[index].setPhysicsState({ impostor: BABYLON.PhysicsEngine.SphereImpostor, mass: 100, friction:100, restitution: 0});
 
                 }
                 createShape();
@@ -262,6 +260,13 @@
                 else{
                     var shape = BABYLON.Mesh.CreateSphere("Ball2", 10, 1.0, scene);
                     shape.type = "sphere";
+                }
+                if(SHAPES[index].type == "box"){
+                    SHAPES[index].setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 100, friction: 100, restitution: 0});
+                }
+                else{
+                    SHAPES[index].setPhysicsState({ impostor: BABYLON.PhysicsEngine.SphereImpostor, mass: 100, friction:100, restitution: 0});
+
                 }
                 shape.position.x = -3; //position mesh
                 shape.position.y = 0; //position mesh

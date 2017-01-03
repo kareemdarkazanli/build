@@ -79,12 +79,15 @@
             else{
                 move = 1;
             }*/
-            if(scene.pointerY < w/2)
+            var w = window.innerWidth;
+            var h = window.innerHeight;
+
+
+            if(scene.pointerY < h/4)
             {
                 SHAPES[0].setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0.1, restitution: 0 });
             }
             else{
-                var w = window.innerWidth;
 
                 if(scene.pointerX < w/2){
                //SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,-5),SHAPES[0].position);

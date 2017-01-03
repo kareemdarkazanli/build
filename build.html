@@ -85,13 +85,13 @@
 
             if(scene.pointerY < h/4)
             {
-                if(SHAPES[index].type == "box"){
-                    //SHAPES[index].setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 100, friction: 100, restitution: 0});
-                }
-                else{
-                    //SHAPES[index].setPhysicsState({ impostor: BABYLON.PhysicsEngine.SphereImpostor, mass: 100, friction:100, restitution: 0});
+                //if(SHAPES[index].type == "box"){
+                    SHAPES[index].setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 100, friction: 100, restitution: 0});
+                //}
+                /*else{
+                    SHAPES[index].setPhysicsState({ impostor: BABYLON.PhysicsEngine.SphereImpostor, mass: 100, friction:100, restitution: 0});
 
-                }
+                }*/
                 createShape();
                 index++;
             }
@@ -252,22 +252,15 @@
         }
         
         function createShape(){
-                var rand = Math.floor(Math.random() * 2);
-                if(rand == 0){
+               //// var rand = Math.floor(Math.random() * 2);
+               // if(rand == 0){
                    var shape = BABYLON.Mesh.CreateBox("Box2", 1, scene);
                    shape.type = "box";
-                }
-                else{
-                    var shape = BABYLON.Mesh.CreateSphere("Ball2", 10, 1.0, scene);
-                    shape.type = "sphere";
-                }
-                if(shape.type == "box"){
-                    shape.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 100, friction: 100, restitution: 0});
-                }
-                else{
-                    shape.setPhysicsState({ impostor: BABYLON.PhysicsEngine.SphereImpostor, mass: 100, friction:100, restitution: 0});
-
-                }
+              //  }
+               // else{
+               //     var shape = BABYLON.Mesh.CreateSphere("Ball2", 10, 1.0, scene);
+                  //  shape.type = "sphere";
+               // }
                 shape.position.x = -3; //position mesh
                 shape.position.y = 0; //position mesh
                 shape.position.z = 0; //position mesh

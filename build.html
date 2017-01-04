@@ -86,7 +86,7 @@
             if(scene.pointerY < h/4)
             {
                 //if(SHAPES[index].type == "box"){
-                    SHAPES[index].setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 100, friction: 100, restitution: 0});
+                    SHAPES[index].setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1000, friction: 100, restitution: 0});
                 //}
                 /*else{
                     SHAPES[index].setPhysicsState({ impostor: BABYLON.PhysicsEngine.SphereImpostor, mass: 100, friction:100, restitution: 0});
@@ -164,7 +164,7 @@
         ground.scaling.y = 1;
        // ground.material.backFaceCulling = false;
         //ground.material.alpha = 0.5;
-        ground.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 100, restitution: 0 });
+        ground.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 100, restitution: 1 });
     
         //sphere parameters are: name, number of segments (highly detailed or not), size, scene to attach the mesh.
         /*var ball = BABYLON.Mesh.CreateSphere("Ball", 10, 1.0, Scene);

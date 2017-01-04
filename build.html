@@ -150,7 +150,7 @@
 
         //cameras
         Camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 10, new BABYLON.Vector3(0,0,0), scene);
-        Camera.radius = 25;
+        Camera.radius = 5;
         //lights
         var light0 = new BABYLON.PointLight("Omni", new BABYLON.Vector3(0, 0, 10), scene);
 
@@ -254,7 +254,7 @@
         function createShape(){
                //// var rand = Math.floor(Math.random() * 2);
                // if(rand == 0){
-                   var shape = BABYLON.Mesh.CreateBox("Box2", 5, scene);
+                   var shape = BABYLON.Mesh.CreateBox("Box2", 1, scene);
                    shape.type = "box";
               //  }
                // else{

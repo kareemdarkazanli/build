@@ -70,53 +70,40 @@
         <canvas id="renderCanvas""></canvas>
         <script>
         var canvas = document.getElementById("renderCanvas");
-        canvas.addEventListener('touchstart', function(ev) {
-            /*var w = window.innerWidth;
-
-            if(ev.clientX < w/2){
-                move = -1;
-            }
-            else{
-                move = 1;
-            }*/
+        canvas.addEventListener('mousedown', function(ev) {
             var w = window.innerWidth;
             var h = window.innerHeight;
 
 
             if(scene.pointerY < h/4)
             {
-                //if(SHAPES[index].type == "box"){
-                    SHAPES[index].setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1000, friction: 100, restitution: 0});
-                //}
-                /*else{
-                    SHAPES[index].setPhysicsState({ impostor: BABYLON.PhysicsEngine.SphereImpostor, mass: 100, friction:100, restitution: 0});
-
-                }*/
+                //SHAPES[index].setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1000, friction: 100, restitution: 0.0});
+                SHAPES[index].physicsImpostor = new BABYLON.PhysicsImpostor(SHAPES[index], BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1000, restitution: 0.9 }, scene);
                 createShape();
                 index++;
+                //SHAPES[index - 1].setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 100, restitution: 0.0});
+                
+
             }
             else{
 
                 if(scene.pointerX < w/2){
-               //SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,-5),SHAPES[0].position);
                     move = -1;
                 }
                 else{
                     move = 1;
-                //SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,5.0000000000),SHAPES[0].position);
-
                 }
             }
             
 
         }, false);
         
-        canvas.addEventListener('touchend', function(ev) {
+        
+        
+        canvas.addEventListener('mouseup', function(ev) {
             move = 0;
         }, false);
         
-       // canvas.addEventListener('touchmove', function(ev) { 
-        //}, false);
         </script>
         <script>
             var canvas, engine, scene, Camera;  
@@ -124,6 +111,10 @@
             var SHAPES = [];
             var move = 0;
             var index = 0;
+            var point = 0;
+            var ground;
+            var hole_ground;
+            var grass;
 
 
             document.addEventListener("DOMContentLoaded", function () {
@@ -132,103 +123,110 @@
             
                 }
             }, false);
-        //setTimeout(temp, 5000);
-
-        function temp(){
-        move = 0;
-            SHAPES[0].setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0.1, restitution: 0 });
-        }
+        
         function initScene(){
         canvas = document.getElementById("renderCanvas");
         engine = new BABYLON.Engine(canvas, true);
         scene = new BABYLON.Scene(engine);
-        
+        scene.collisionsEnabled = true;
+
 
         //Physics!!!
         scene.enablePhysics();
         scene.setGravity(new BABYLON.Vector3(10, 0, 0));
-
+        
         //cameras
         Camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 10, new BABYLON.Vector3(0,0,0), scene);
-        Camera.radius = 25;
-        //lights
-        var light0 = new BABYLON.PointLight("Omni", new BABYLON.Vector3(0, 0, 10), scene);
+        Camera.radius = 11;
+        Camera.attachControl(canvas, true);
 
+        //lights
+        //var light0 = new BABYLON.PointLight("Omni", new BABYLON.Vector3(0, 0, 0), scene);
+        var light0 = new BABYLON.HemisphericLight("Hemi0", new BABYLON.Vector3(0, 3, 0), scene);
+        light0.diffuse = new BABYLON.Color3(1, 1, 1);
+        light0.specular = new BABYLON.Color3(1, 1, 1);
+        light0.groundColor = new BABYLON.Color3(0, 0, 0);
+        light0.intensity = 0.01;
         //meshes
         //ground.
-        var ground = BABYLON.Mesh.CreateBox("ground", 10, scene);
+        /*ground = BABYLON.Mesh.CreateBox("ground", 10, scene);
         ground.rotation.z = 0;
         ground.position.x = 5;
         ground.position.y = 0;
         ground.scaling.x = .1;
-        ground.scaling.y = 1;
+        ground.scaling.y = 1;*/
+
+        
        // ground.material.backFaceCulling = false;
         //ground.material.alpha = 0.5;
-        ground.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 100, restitution: 1 });
-    
-        //sphere parameters are: name, number of segments (highly detailed or not), size, scene to attach the mesh.
-        /*var ball = BABYLON.Mesh.CreateSphere("Ball", 10, 1.0, Scene);
-        ball.position.x = 2; //position mesh
-        ball.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0, restitution: 0.7 });
-        */
+        //ground.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0.5, restitution: 0.7 });
+        
+        BABYLON.SceneLoader.ImportMesh("Cube.001", "", "shapes.babylon", scene, function (meshes) {
+            var m = meshes[0];
+            m.isVisible = true;
+            m.scaling = new BABYLON.Vector3(6.7,.1,6.7);
+            m.rotation.z = Math.PI/2;
+            m.position.x = 4;
+            m.position.z = 0;
+            m.position.y = -5;
+            var mat = new BABYLON.StandardMaterial('mat', scene);
+            var texture = new BABYLON.Texture("grass.jpeg", scene);
+            
+            mat.emissiveTexture = texture;  
+            //mat.emissiveTexture.uScale = 10.0; 
+           // mat.emissiveTexture.vScale = 10.0; 
 
-        //box parameters are: name, size of the box, the scene to attach the mesh.
-        /*var box = BABYLON.Mesh.CreateBox("Box", 1, Scene);
-        box.position.x = -6; //position mesh
-        box.position.y = 0; //position mesh
-        box.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0, restitution: 0.7 });
+            m.material = mat;
+            grass = m;
+			
+		// Apply the material to the script cube
+        });
         
         
-        box2 = BABYLON.Mesh.CreateBox("Box2", 1, Scene);
-        box2.position.x = -8; //position mesh
-        box2.position.y = 0; //position mesh
-        box2.position.z = -0.1; //position mesh
-        box2.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 0, restitution: 0.7 });
-        */
-        //setTimeout(changeMass, 1000);
-        /*
-        var box3 = BABYLON.Mesh.CreateBox("Box3", 1, Scene);
-        box3.position.x = -9.5; //position mesh
-        box3.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0.5, restitution: 0.7 });
+			
+        
+        BABYLON.SceneLoader.ImportMesh("Cylinder", "", "shapes.babylon", scene, function (meshes) {
+            var m = meshes[0];
+            m.isVisible = true;
+            m.scaling = new BABYLON.Vector3(5,.05,5);
+            m.rotation.z = Math.PI/2;
+            m.position.x = 4;
+            m.position.y = -5;
+            m.position.z = 0.17;
+            var mat = new BABYLON.StandardMaterial('mat', scene);
+            var texture = new BABYLON.Texture("wood.jpg", scene);
+            mat.emissiveTexture = texture;   
+            m.material = mat;
+            hole_ground = m;
+            //alert(hole_ground);
+        });
+        
 
-        //cylinder parameters are:
-        //name, height, diameterTop, diameterBottom, tessellation (highly detailed or not), scene, updatable.
-        var cylinder = BABYLON.Mesh.CreateCylinder("cylinder", 3, 3, 3, 20, Scene, false);
-        cylinder.position.x = 15; //position mesh
-        cylinder.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0.5, restitution: 0.7 });
-        */
-        
-        /*
-        ball2 = BABYLON.Mesh.CreateSphere("Ball2", 10, 1.0, Scene);
-        ball2.position.x = -4; //position mesh
-        ball2.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 1, friction: 0, restitution: 0.7 });
-        */
+        /*scene.registerBeforeRender(function () {
+            if (index == 0 && SHAPES[0].intersectsMesh(ground, false)) {
+                alert("Hit");
+            }
+            
+        });*/
 
         var posz = 0;
         createShape();
-
+        
         engine.runRenderLoop(function () {
             scene.render();
-            //SHAPES[0].translate(new BABYLON.Vector3(0, 0, -5), 1.0, BABYLON.Space.WORLD);
-            //posz = SHAPES[0].position.z;
+            //
+            if (typeof hole_ground != "undefined") {
+                hole_ground.rotation.x += Math.PI/300;
+            }
             if(move == 1){
                 SHAPES[index].position.z += .1;
-
-                //posz += 1;
-                //SHAPES[0].position = new BABYLON.Vector3(0, 0, posz);
-                //alert(posz);
-                
-                //SHAPES[0].updatePhysicsBodyPosition();
-	            //box.moveWithCollisions(new BABYLON.Vector3(-1, 0, 0));
-	            //SHAPES[0].refreshBoundingInfo();
-                //SHAPES[0].position.z = SHAPES[0].position.z + .05;
-                //SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,0.5), SHAPES[0]);
             }
             else if(move == -1){
-                //SHAPES[0].position.z = SHAPES[0].position.z - .05;
                 SHAPES[index].position.z -= .1;
 
             }
+            
+                
             
         });
 
@@ -252,24 +250,12 @@
         }
         
         function createShape(){
-               //// var rand = Math.floor(Math.random() * 2);
-               // if(rand == 0){
-                   var shape = BABYLON.Mesh.CreateBox("Box2", 1, scene);
-                   shape.type = "box";
-              //  }
-               // else{
-               //     var shape = BABYLON.Mesh.CreateSphere("Ball2", 10, 1.0, scene);
-                  //  shape.type = "sphere";
-               // }
-                shape.position.x = -3; //position mesh
+                var shape = BABYLON.Mesh.CreateBox("Box2", 2, scene);
+                shape.type = "box";
+                shape.position.x = -1; //position mesh
                 shape.position.y = 0; //position mesh
                 shape.position.z = 0; //position mesh
-                //shape.setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, move: true, mass: 0, friction: 0, restitution: 0.7 });
-	            //shape.setPhysicsState({ impostor: BABYLON.PhysicsEngine.SphereImpostor, mass: 0 });
-	            shape.showBoundingBox = true;
                 SHAPES.push(shape);
-                //SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,15),new BABYLON.Vector3(0,0,0));
-
             
         }
         function moveShape(event){
@@ -279,12 +265,10 @@
             var w = window.innerWidth;
 
             if(scene.pointerX < w/2){
-               //SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,-5),SHAPES[0].position);
                 move = -1;
             }
             else{
                 move = 1;
-                //SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,5.0000000000),SHAPES[0].position);
 
             }
 
@@ -292,7 +276,6 @@
         }
         function stopShape(){
            move = 0;
-           //SHAPES[0].applyImpulse(new BABYLON.Vector3(0,0,-5.0000000000),SHAPES[0].position);
 
         }
         </script>

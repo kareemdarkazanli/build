@@ -70,7 +70,7 @@
         <canvas id="renderCanvas""></canvas>
         <script>
         var canvas = document.getElementById("renderCanvas");
-        canvas.addEventListener('mousedown', function(ev) {
+        canvas.addEventListener('touchstart', function(ev) {
             var w = window.innerWidth;
             var h = window.innerHeight;
 
@@ -81,6 +81,7 @@
                 SHAPES[index].physicsImpostor = new BABYLON.PhysicsImpostor(SHAPES[index], BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1000, restitution: 0.9 }, scene);
                 createShape();
                 index++;
+                x = 0;
                 //SHAPES[index - 1].setPhysicsState({ impostor: BABYLON.PhysicsEngine.BoxImpostor, mass: 0, friction: 100, restitution: 0.0});
                 
 
@@ -100,7 +101,7 @@
         
         
         
-        canvas.addEventListener('mouseup', function(ev) {
+        canvas.addEventListener('touchend', function(ev) {
             move = 0;
         }, false);
         
@@ -115,6 +116,8 @@
             var ground;
             var hole_ground;
             var grass;
+            var x = 0;
+
 
 
             document.addEventListener("DOMContentLoaded", function () {
@@ -211,18 +214,23 @@
 
         var posz = 0;
         createShape();
-        
         engine.runRenderLoop(function () {
             scene.render();
             //
             if (typeof hole_ground != "undefined") {
-                hole_ground.rotation.x += Math.PI/300;
+                //hole_ground.rotation.x += Math.PI/300;
             }
             if(move == 1){
-                SHAPES[index].position.z += .1;
+                //SHAPES[index].position.z += .1;
+                x += Math.PI/100;
+                SHAPES[index].position.z = 3*Math.cos(x);
+                SHAPES[index].position.y = 3*Math.sin(x) - 5;
             }
             else if(move == -1){
-                SHAPES[index].position.z -= .1;
+                //SHAPES[index].position.z -= .1;
+                x -= Math.PI/100;
+                SHAPES[index].position.z = 3*Math.cos(x);
+                SHAPES[index].position.y = 3*Math.sin(x) - 5;
 
             }
             
@@ -250,11 +258,16 @@
         }
         
         function createShape(){
-                var shape = BABYLON.Mesh.CreateBox("Box2", 2, scene);
+                var shape = BABYLON.Mesh.CreateBox("Box2",2, scene);
                 shape.type = "box";
                 shape.position.x = -1; //position mesh
-                shape.position.y = 0; //position mesh
-                shape.position.z = 0; //position mesh
+                //shape.position.y = -1; //position mesh
+                //shape.position.z = 0; //position mesh
+                shape.position.z = 3*Math.cos(0);
+                shape.position.y = 3*Math.sin(0) - 5;
+                shape.material = new BABYLON.StandardMaterial("Mat", scene);
+                shape.material.emissiveTexture = new BABYLON.Texture("crate.png", scene);
+                shape.material.emissiveTexture.hasAlpha = true; 
                 SHAPES.push(shape);
             
         }

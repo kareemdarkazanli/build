@@ -198,6 +198,7 @@
             m.position.z = 0.17;
             var mat = new BABYLON.StandardMaterial('mat', scene);
             var texture = new BABYLON.Texture("wood.jpg", scene);
+            m.physicsImpostor = new BABYLON.PhysicsImpostor(m, BABYLON.PhysicsImpostor.CylinderImpostor, { mass: 0, restitution: 0.9 }, scene);
             mat.emissiveTexture = texture;   
             m.material = mat;
             hole_ground = m;
